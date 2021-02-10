@@ -2,36 +2,34 @@ import java.util.Scanner;
 
 
 public class Duke {
-    static String line,temp;
+    static String userCommand;
     static int taskCounter=0;
 
     public static final int MAX_TASK = 100;
 
     static Task[] tasks = new Task[MAX_TASK];
 
-    public static final Scanner in = new Scanner(System.in);
+    public static final Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
         printHorizontal();
         System.out.println("Hello! I'm Duke\nWhat can I do for you?");
         printHorizontal();
 
-        line = in.nextLine();
+        userCommand = input.nextLine();
 
-        while(!(line.equals("bye"))) {
-            if(line.equals("list")) {
+        while(!(userCommand.equals("bye"))) {
+            if(userCommand.equals("list")) {
                listTasks(tasks);
-            }
-            else if(line.contains("done ")){
-                markTasks(tasks,line.trim());
-            }
-            else {
-                tasks[taskCounter++] = new Task(line);
+            } else if(userCommand.contains("done ")) {
+                markTasks(tasks,userCommand.trim());
+            } else {
+                tasks[taskCounter++] = new Task(userCommand);
                 printHorizontal();
-                System.out.println("Added: "+ line);
+                System.out.println("Added: "+ userCommand);
                 printHorizontal();
             }
-            line = in.nextLine();
+            userCommand = input.nextLine();
         }
 
         printHorizontal();
@@ -43,11 +41,11 @@ public class Duke {
         printHorizontal();
         if(taskCounter==0) {
             System.out.println("No tasks are there.");
-        }
-        else {
+        } else {
             System.out.println("Here are the tasks in your list:");
             for (int j = 0; j < taskCounter; ++j) {
-                System.out.println("        " + (j + 1) + ".[" + tasks[j].getStatusIcon() + "] " + tasks[j].getDescription());
+                System.out.println("        " + (j + 1) + ".[" + tasks[j].getStatusIcon() + "] " +
+                        tasks[j].getDescription());
             }
         }
         printHorizontal();
@@ -62,8 +60,7 @@ public class Duke {
         printHorizontal();
         if(!(taskNumAsInt>0 && taskNumAsInt<=taskCounter)){
             System.out.println("Sorry! There are no such tasks!");
-        }
-        else{
+        } else {
             taskIndex=taskNumAsInt-1;
             tasks[taskIndex].markAsDone();
             System.out.println("Nice! I've marked this task as done:"+System.lineSeparator()+
