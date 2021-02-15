@@ -2,14 +2,13 @@ import java.util.Scanner;
 
 
 public class Duke {
+    static final int MAX_TASK = 100;
     static String userCommand;
     static int taskCounter=0;
 
-    public static final int MAX_TASK = 100;
-
     static Task[] tasks = new Task[MAX_TASK];
 
-    public static final Scanner input = new Scanner(System.in);
+    static final Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
         printHorizontal();
@@ -53,10 +52,20 @@ public class Duke {
         }
     }
 
-    public static void printDetails(Task[] tasks){
-        System.out.println("Got it. I've added this task: ");
-        System.out.println("        " + taskCounter + ". " + tasks[taskCounter-1].toString());
-        System.out.println("Now you have "+taskCounter+ " tasks in the list.");
+    public static void markTasks(Task[] tasks){
+
+        int taskIndex;
+        String taskNumAsString=userCommand.substring(5);
+        int taskNumAsInt = Integer.parseInt(taskNumAsString);
+
+        if(!(taskNumAsInt>0 && taskNumAsInt<=taskCounter)){
+            System.out.println("Sorry! There are no such tasks!");
+        } else {
+            taskIndex=taskNumAsInt-1;
+            tasks[taskIndex].markAsDone();
+            System.out.println("Nice! I've marked this task as done:"+System.lineSeparator()+
+                    "        " + taskNumAsInt + ". " + tasks[taskIndex].toString());
+        }
     }
 
     public static void addTodo(Task[] tasks){
@@ -78,22 +87,13 @@ public class Duke {
         tasks[taskCounter++] = new Events(splitCommandAgain[0], splitCommandAgain[1]);
         printDetails(tasks);
     }
-    public static void markTasks(Task[] tasks){
 
-        int taskIndex;
-        String taskNumAsString=userCommand.substring(5);
-        int taskNumAsInt = Integer.parseInt(taskNumAsString);
-
-        if(!(taskNumAsInt>0 && taskNumAsInt<=taskCounter)){
-            System.out.println("Sorry! There are no such tasks!");
-        } else {
-            taskIndex=taskNumAsInt-1;
-            tasks[taskIndex].markAsDone();
-            System.out.println("Nice! I've marked this task as done:"+System.lineSeparator()+
-                    "        " + taskNumAsInt + ". " + tasks[taskIndex].toString());
-        }
+    public static void printDetails(Task[] tasks){
+        System.out.println("Got it. I've added this task: ");
+        System.out.println("        " + taskCounter + ". " + tasks[taskCounter-1].toString());
+        System.out.println("Now you have "+taskCounter+ " tasks in the list.");
     }
-
+    
     public static void printHorizontal(){
         String horizontalLine = "------------------------------------------";
         System.out.println(horizontalLine);
