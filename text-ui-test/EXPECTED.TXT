@@ -1,7 +1,47 @@
-Hello from
- ____        _        
-|  _ \ _   _| | _____ 
-| | | | | | | |/ / _ \
-| |_| | |_| |   <  __/
-|____/ \__,_|_|\_\___|
-
+------------------------------------------
+Hello! I'm Duke
+What can I do for you?
+------------------------------------------
+todo borrow book
+------------------------------------------
+Got it. I've added this task: 
+        1. [T][ ] borrow book
+Now you have 1 tasks in the list.
+------------------------------------------
+deadlines assignment /by 19 feb
+------------------------------------------
+Invalid input!
+------------------------------------------
+deadline assignment /by 19 feb
+------------------------------------------
+Got it. I've added this task: 
+        2. [D][ ] assignment (by: 19 feb)
+Now you have 2 tasks in the list.
+------------------------------------------
+event meeting /at mon 2-4pm
+------------------------------------------
+Got it. I've added this task: 
+        3. [E][ ] meeting (at: mon 2-4pm)
+Now you have 3 tasks in the list.
+------------------------------------------
+done 1
+------------------------------------------
+Nice! I've marked this task as done:
+        1. [T][X] borrow book
+------------------------------------------
+done 3
+------------------------------------------
+Nice! I've marked this task as done:
+        3. [E][X] meeting (at: mon 2-4pm)
+------------------------------------------
+list
+------------------------------------------
+Here are the tasks in your list:
+        1. [T][X] borrow book
+        2. [D][ ] assignment (by: 19 feb)
+        3. [E][X] meeting (at: mon 2-4pm)
+------------------------------------------
+bye
+------------------------------------------
+Bye. Hope to see you again soon!
+------------------------------------------

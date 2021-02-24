@@ -1,3 +1,4 @@
+package duke;
 import java.util.Scanner;
 
 
@@ -93,7 +94,7 @@ public class Duke {
         System.out.println("        " + taskCounter + ". " + tasks[taskCounter-1].toString());
         System.out.println("Now you have "+taskCounter+ " tasks in the list.");
     }
-    
+
     public static void printHorizontal(){
         String horizontalLine = "------------------------------------------";
         System.out.println(horizontalLine);
