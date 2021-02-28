@@ -1,5 +1,4 @@
-package duke;
-
+package duke.taskclass;
 public class Todo extends Task{
 
     public Todo(String description){

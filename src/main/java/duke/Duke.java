@@ -1,6 +1,11 @@
 package duke;
-import java.util.Scanner;
 
+import duke.taskclass.Deadlines;
+import duke.taskclass.Events;
+import duke.taskclass.Task;
+import duke.taskclass.Todo;
+
+import java.util.Scanner;
 
 public class Duke {
     static final int MAX_TASK = 100;
@@ -13,7 +18,7 @@ public class Duke {
 
     public static void main(String[] args) {
         printHorizontal();
-        System.out.println("Hello! I'm Duke\nWhat can I do for you?");
+        System.out.println("Hello! I'm duke.Duke\nWhat can I do for you?");
         printHorizontal();
 
         userCommand = (input.nextLine()).trim();
@@ -22,16 +27,16 @@ public class Duke {
             printHorizontal();
             if(userCommand.equals("list")) {
                 listTasks(tasks);
-            } else if(userCommand.contains("done ")) {
+            } else if(userCommand.contains("done")) {
                 markTasks(tasks);
-            } else if(userCommand.contains("todo ")) {
+            } else if(userCommand.contains("todo")) {
                 addTodo(tasks);
-            } else if(userCommand.contains("deadline ")){
+            } else if(userCommand.contains("deadline")){
                 addDeadline(tasks);
-            } else if(userCommand.contains("event ")) {
+            } else if(userCommand.contains("event")) {
                 addEvent(tasks);
             } else {
-                System.out.println("Invalid input!");
+                System.out.println("Oops! Command is not valid.");
             }
             printHorizontal();
             userCommand = (input.nextLine()).trim();
@@ -55,24 +60,33 @@ public class Duke {
 
     public static void markTasks(Task[] tasks){
 
-        int taskIndex;
-        String taskNumAsString=userCommand.substring(5);
-        int taskNumAsInt = Integer.parseInt(taskNumAsString);
-
-        if(!(taskNumAsInt>0 && taskNumAsInt<=taskCounter)){
-            System.out.println("Sorry! There are no such tasks!");
-        } else {
-            taskIndex=taskNumAsInt-1;
+        int taskIndex, taskNumAsInt;
+        try {
+            String taskNumAsString = userCommand.substring(5);
+            taskNumAsInt = Integer.parseInt(taskNumAsString);
+            taskIndex = taskNumAsInt - 1;
             tasks[taskIndex].markAsDone();
-            System.out.println("Nice! I've marked this task as done:"+System.lineSeparator()+
+            System.out.println("Nice! I've marked this task as done:" + System.lineSeparator() +
                     "        " + taskNumAsInt + ". " + tasks[taskIndex].toString());
+        } catch (NumberFormatException e) {
+            System.out.println("Task to be marked done is not specified as a number.");
+        } catch (NullPointerException e) {
+            System.out.println("There are no such tasks added yet.");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Task Number field is either empty or out of bounds.");
         }
     }
 
     public static void addTodo(Task[] tasks){
-        String[] splitCommand = userCommand.split(" ", 2);
-        tasks[taskCounter++] = new Todo(splitCommand[1]);
-        printDetails(tasks);
+
+        try {
+            String[] splitCommand = userCommand.split(" ", 2);
+            tasks[taskCounter++] = new Todo(splitCommand[1]);
+            printDetails(tasks);
+        } catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("You have not given any description.");
+            --taskCounter;
+        }
     }
 
     public static void addDeadline(Task[] tasks){
