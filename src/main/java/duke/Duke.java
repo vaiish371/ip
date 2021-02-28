@@ -53,6 +53,7 @@ public class Duke {
         }
     }
 
+    //This function marks the tasks as done.
     public static void markTasks(Task[] tasks){
 
         int taskIndex;
