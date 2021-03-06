@@ -5,6 +5,10 @@ import duke.taskclass.Events;
 import duke.taskclass.Task;
 import duke.taskclass.Todo;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class TaskList {
@@ -53,13 +57,30 @@ public class TaskList {
     }
 
     public void addDeadline(String description, String by){
-        tasks.add(new Deadlines(description.trim(),by.trim()));
+        String formattedBy = formatDateTime(by);
+        tasks.add(new Deadlines(description,formattedBy));
         printDetails();
     }
 
-    public void addEvent(String description, String at){ ;
-        tasks.add(new Events(description,at));
+    public void addEvent(String description, String at){
+        String formattedAt = formatDateTime(at);
+        tasks.add(new Events(description,formattedAt));
         printDetails();
+    }
+
+    public static String formatDateTime(String dateCommand) {
+        String[] splitCommand = dateCommand.split(" ", 2);
+        try {
+            LocalDate taskDate = LocalDate.parse(splitCommand[0]);
+            String formattedDate = taskDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
+
+            LocalTime taskTime = LocalTime.parse(splitCommand[1]);
+            String formattedTime = taskTime.format(DateTimeFormatter.ofPattern("hh:mm a"));
+
+            return (formattedDate + ", " + formattedTime);
+        } catch (DateTimeParseException | ArrayIndexOutOfBoundsException dpe) {
+            return dateCommand;
+        }
     }
 
     public void printDetails(){
