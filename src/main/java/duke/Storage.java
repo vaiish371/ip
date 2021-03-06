@@ -1,0 +1,84 @@
+package duke;
+
+import duke.taskclass.Deadlines;
+import duke.taskclass.Events;
+import duke.taskclass.Task;
+import duke.taskclass.Todo;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Storage {
+
+    public Storage() {
+
+    }
+
+    public  ArrayList<Task> loadTasks(String filePath) throws FileNotFoundException {
+        File f = new File(filePath);
+        Scanner fileContent = new Scanner(f);
+        ArrayList<Task> tempArray = new ArrayList<>();
+        while (fileContent.hasNext()) {
+            String fileInput = fileContent.nextLine();
+            String[] splitLine = fileInput.split(" : ");
+            switch (splitLine[0].trim()) {
+            case "T":
+                tempArray.add(new Todo(splitLine[2]));
+                break;
+            case "E":
+                tempArray.add(new Events(splitLine[2], splitLine[3]));
+                break;
+            case "D":
+                tempArray.add(new Deadlines(splitLine[2], splitLine[3]));
+                break;
+            default:
+                System.out.println("Task is not valid");
+            }
+            if (splitLine[1].equals("✓")) {
+                tempArray.get(tempArray.size() - 1).markAsDone();
+            }
+        }
+        return tempArray;
+    }
+
+    public void saveTasks(ArrayList<Task> tasks) {
+
+        String filePath = new File("").getAbsolutePath();
+        try {
+            FileWriter fw = new FileWriter(filePath + "/data.txt");
+            for (Task taskObj : tasks) {
+                if (taskObj instanceof Todo) {
+                    if (taskObj.isDone) {
+                        fw.write("T : ✓ : " + taskObj.getDescription() + System.lineSeparator());
+                    } else {
+                        fw.write("T : X : " + taskObj.getDescription() + System.lineSeparator());
+                    }
+                } else if (taskObj instanceof Deadlines) {
+                    if (taskObj.isDone) {
+                        fw.write("D : ✓ : ");
+                    } else {
+                        fw.write("D : X : ");
+                    }
+                    fw.write(taskObj.getDescription() + " : " + ((Deadlines) taskObj).getBy() + System.lineSeparator());
+                } else if (taskObj instanceof Events) {
+                    if (taskObj.isDone) {
+                        fw.write("E : ✓ : ");
+                    } else {
+                        fw.write("E : X : ");
+                    }
+                    fw.write(taskObj.getDescription() + " : " + ((Events) taskObj).getEventTime() + System.lineSeparator());
+                } else {
+                    System.out.println("Class not found!");
+                }
+            }
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("ERROR: something went wrong! :(");
+        }
+    }
+
+}
