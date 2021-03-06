@@ -5,6 +5,10 @@ import duke.taskclass.Events;
 import duke.taskclass.Task;
 import duke.taskclass.Todo;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,7 +21,9 @@ public class Duke {
 
     static final Scanner input = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        String filePath = new File("").getAbsolutePath();
+        loadTasks(filePath+"/data.txt");
         printHorizontal();
         System.out.println("Hello! I'm duke.Duke\nWhat can I do for you?");
         printHorizontal();
@@ -45,9 +51,79 @@ public class Duke {
             userCommand = (input.nextLine()).trim();
         }
 
+        saveTasks();
         printHorizontal();
         System.out.println("Bye. Hope to see you again soon!");
         printHorizontal();
+    }
+
+    public static void loadTasks(String filePath) throws FileNotFoundException {
+        File f = new File(filePath);
+        Scanner fileContent = new Scanner(f);
+
+        while (fileContent.hasNext()) {
+            String fileInput = fileContent.nextLine();
+            // System.out.println(fileInput);
+            String[] splitLine = fileInput.split(" : ");
+            // System.out.println(splitLine[0]+splitLine[1]+splitLine[2]);
+            switch(splitLine[0].trim()){
+                case "T" : tasks.add(new Todo(splitLine[2]));
+                            ++taskCounter;
+                            if(splitLine[1].equals("✓")) {
+                                tasks.get(taskCounter - 1).markAsDone();
+                            }
+                            break;
+                case "E" : tasks.add(new Events(splitLine[2],splitLine[3]));
+                            ++taskCounter;
+                            if(splitLine[1].equals("✓")) {
+                                tasks.get(taskCounter - 1).markAsDone();
+                            }
+                            break;
+                case "D" : tasks.add(new Deadlines(splitLine[2],splitLine[3]));
+                            ++taskCounter;
+                            if(splitLine[1].equals("✓")) {
+                                tasks.get(taskCounter - 1).markAsDone();
+                            }
+                            break;
+                  default: System.out.println("Task is not valid");
+            }
+
+        }
+    }
+    public static void saveTasks() throws IOException {
+
+        String filePath = new File("").getAbsolutePath();
+        try {
+            FileWriter fw = new FileWriter(filePath + "/data.txt");
+            for (Task taskObj : tasks) {
+                if (taskObj instanceof Todo) {
+                    if (taskObj.isDone) {
+                        fw.write("T : ✓ : " + taskObj.getDescription()+System.lineSeparator());
+                    } else {
+                        fw.write("T : X : " + taskObj.getDescription()+System.lineSeparator());
+                    }
+                } else if (taskObj instanceof Deadlines) {
+                    if (taskObj.isDone) {
+                        fw.write("D : ✓ : ");
+                    } else {
+                        fw.write("D : X : ");
+                    }
+                    fw.write(taskObj.getDescription() + " : " + ((Deadlines) taskObj).getBy() + System.lineSeparator());
+                } else if (taskObj instanceof Events) {
+                    if (taskObj.isDone) {
+                        fw.write("E : ✓ : ");
+                    } else {
+                        fw.write("E : X : ");
+                    }
+                    fw.write(taskObj.getDescription() + " : " + ((Events) taskObj).getEventTime() +  System.lineSeparator());
+                } else {
+                    System.out.println("Class not found!");
+                }
+            }
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("ERROR: something went wrong! :(");
+        }
     }
 
     public static void listTasks(ArrayList<Task> tasks){
