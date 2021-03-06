@@ -11,6 +11,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
+/**
+ *
+ *
+ */
 public class TaskList {
 
     private ArrayList<Task> tasks = new ArrayList<>();
@@ -30,7 +34,12 @@ public class TaskList {
         }
     }
 
-    //This function marks the tasks as done.
+    /**
+     * Marks a specified task as done[✓] and displays its details.
+     *
+     * @param index Array Index of a Task.
+     * @throws DukeArrayException if index is out of bounds.
+     */
     public void markTasks(int index) throws DukeArrayException{
         if(index>tasks.size() || index<0) {
             throw new DukeArrayException();
@@ -41,6 +50,13 @@ public class TaskList {
 
     }
 
+    /**
+     * Removes a specified task from tasks Array and displays its details,
+     * along with the number of existing tasks.
+     *
+     * @param index Array Index of a Task.
+     * @throws DukeArrayException if index is out of bounds.
+     */
     public void deleteTasks(int index) throws DukeArrayException{
         if(index>tasks.size() || index<0) {
             throw new DukeArrayException();
@@ -51,23 +67,46 @@ public class TaskList {
             System.out.println("Now you have "+tasks.size()+" tasks in your list.");
     }
 
+    /**
+     * Adds Todo task.
+     *
+     * @param description Description of the todo task.
+     */
     public void addTodo(String description){
             tasks.add(new Todo(description));
             printDetails();
     }
 
+    /**
+     * Adds Deadline task and formats the deadline date and time.
+     *
+     * @param description Description of the deadline task.
+     * @param by Specifies the date and time of deadline.
+     */
     public void addDeadline(String description, String by){
         String formattedBy = formatDateTime(by);
         tasks.add(new Deadlines(description,formattedBy));
         printDetails();
     }
 
+    /**
+     * Adds Event task and formats the event date and time.
+     *
+     * @param description Description of the deadline task.
+     * @param at Specifies the date and time of the event.
+     */
     public void addEvent(String description, String at){
         String formattedAt = formatDateTime(at);
         tasks.add(new Events(description,formattedAt));
         printDetails();
     }
 
+    /**
+     * Finds and displays all the tasks that contain user's keyword.
+     *
+     * @param keyword Keyword entered by user to find the corresponding tasks.
+     * @throws MultipleKeywordException when user does not enter single-worded keyword.
+     */
     public void findTask(String keyword) throws MultipleKeywordException{
         if(keyword.contains(" ")){
            throw new MultipleKeywordException();
@@ -85,6 +124,13 @@ public class TaskList {
         }
     }
 
+    /**
+     *Formats the date and time entered by user into a more readable form.
+     *
+     * @param dateCommand Contains the date and time entered by user,
+     *                    in the "YYYY-MM-DD HH:MM" format.
+     * @return the formatted date and time in "MMM dd yyyy hh:mm a" format.
+     */
     public static String formatDateTime(String dateCommand) {
         String[] splitCommand = dateCommand.split(" ", 2);
         try {
@@ -100,6 +146,10 @@ public class TaskList {
         }
     }
 
+    /**
+     * Prints details of the task that is added and
+     * displays total number of existing tasks.
+     */
     public void printDetails(){
         System.out.println("Got it. I've added this task: ");
         System.out.println("        " + tasks.size() + ". " + tasks.get(tasks.size() - 1).toString());

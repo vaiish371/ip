@@ -18,6 +18,13 @@ public class Storage {
 
     }
 
+    /**
+     *Loads the data of Tasks from hard disk when Duke starts up.
+     *
+     * @param filePath File path of the text file from which we load any existing tasks from.
+     * @return Task array with the file contents which is later used to instantiate TaskList.
+     * @throws FileNotFoundException when specified file is not found in the file path.
+     */
     public  ArrayList<Task> loadTasks(String filePath) throws FileNotFoundException {
         File f = new File(filePath);
         Scanner fileContent = new Scanner(f);
@@ -45,6 +52,13 @@ public class Storage {
         return tempArray;
     }
 
+    /**
+     *Saves the tasks in the hard disk automatically whenever the task list changes by
+     * writing to the text file specified
+     *
+     * @param tasks tasks Array that contains the task list and contents
+     * @throws IOException when input or output is implemented incorrectly.
+     */
     public void saveTasks(ArrayList<Task> tasks) {
 
         String filePath = new File("").getAbsolutePath();

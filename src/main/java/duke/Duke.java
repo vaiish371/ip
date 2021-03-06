@@ -36,9 +36,9 @@ public class Duke {
                 ui.printHorizontal(); // show the divider line ("_______")
                 parser = new Parser(taskArray);
                 parser.parseCommand(fullCommand);
+                storage.saveTasks(taskArray);
             } catch (DukeException e){
-                ui.showLoadingError();
-                break;
+                ui.printInvalidCommand();
             }
         }
         storage.saveTasks(taskArray);

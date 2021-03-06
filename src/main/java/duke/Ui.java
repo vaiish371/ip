@@ -29,8 +29,8 @@ public class Ui {
         System.out.println(horizontalLine);
     }
 
-    public void showLoadingError(){
-        System.out.println("There seems to be some I/O error. Exiting...");
+    public void printInvalidCommand(){
+        System.out.println("Invalid command!Please try again.");
     }
 
     public String readCommand(){
