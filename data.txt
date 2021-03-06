@@ -1,5 +1,4 @@
 T : X : read
-D : X : ip : Mar 08 2021, 12:30 PM
+D : ✓ : ip : Mar 08 2021, 12:30 PM
 D : X : kk : Mar 08 2021, 04:30 PM
 E : X : meeting : 2021-08-19 2:00
-E : X : meeting : Aug 19 2021, 02:00 PM

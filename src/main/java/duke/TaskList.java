@@ -68,6 +68,23 @@ public class TaskList {
         printDetails();
     }
 
+    public void findTask(String keyword) throws MultipleKeywordException{
+        if(keyword.contains(" ")){
+           throw new MultipleKeywordException();
+        }
+        int flag = 0;
+        System.out.println("Searching for task with keyword: "+keyword+"...");
+        for(Task taskObj: tasks){
+            if(taskObj.getDescription().contains(keyword)){
+                System.out.println("\t" + (tasks.indexOf(taskObj)+1) + ". "+taskObj.toString());
+                flag = 1;
+            }
+        }
+        if(flag==0){
+            System.out.println("Sorry :(, can't find task with keyword: "+keyword);
+        }
+    }
+
     public static String formatDateTime(String dateCommand) {
         String[] splitCommand = dateCommand.split(" ", 2);
         try {

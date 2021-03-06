@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public class Parser {
 
     protected ArrayList<Task> taskArray;
-    protected Ui ui;
 
     public Parser(ArrayList<Task> tasks) {
         this.taskArray = tasks;
@@ -15,7 +14,6 @@ public class Parser {
 
     public void parseCommand(String userCommand) throws DukeException {
         TaskList taskList = new TaskList(taskArray);
-        //ui.printHorizontal();
         try {
             if (userCommand.trim().equals("list")) {
                 taskList.listTasks();
@@ -34,6 +32,9 @@ public class Parser {
                 String[] splitCommand = userCommand.split(" ", 2);
                 String[] splitCommandAgain = splitCommand[1].split(" /at ");
                 taskList.addEvent(splitCommandAgain[0], splitCommandAgain[1]);
+            } else if(userCommand.contains("find")){
+                String[] splitCommand = userCommand.split(" ", 2);
+                taskList.findTask(splitCommand[1]);
             } else if (userCommand.contains("delete")) {
                 String[] splitCommand = userCommand.split(" ", 2);
                 int taskNumAsInt = Integer.parseInt(splitCommand[1]);
@@ -48,7 +49,9 @@ public class Parser {
             System.out.println("There are no such tasks added yet.");
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Task Number/Description is either empty or out of bounds.");
+        } catch (MultipleKeywordException e) {
+            System.out.println("No multiple keywords allowed! Try single keyword or " +
+                    "omitting trailing whitespaces.");
         }
-        //ui.printHorizontal();
     }
 }
